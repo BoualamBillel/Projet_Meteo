@@ -66,8 +66,8 @@ async function main(){
     const cityName = cityInfo.results[0].name;
     
     // Récupération des coordonnés de la ville la plus proche de la recherche
-    const cityLongitude = cityInfo.results[0].longitude;
     const cityLatitude = cityInfo.results[0].latitude;
+    const cityLongitude = cityInfo.results[0].longitude;
     // Récupération des informations météo avec les coordonnés
     const meteoInfo = await getWeatherInfoByCoords(cityLatitude, cityLongitude);
     // Création de la card avec les infos Météo
