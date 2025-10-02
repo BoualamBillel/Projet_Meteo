@@ -31,6 +31,8 @@ async function getWeatherInfoByCoords(latitude, longitude) {
 }
 // Création des elements necessaires à l'affichage des infos de Météo
 async function createWeatherInfoCard(meteoInfo, cityNameData) {
+    // Récupération de la div parente
+    const weatherInfoParentDiv = document.querySelector(".weather-info");
     // Création des divs
     const cityName = document.createElement("h1");
     const weatherIcon = document.createElement("img");
@@ -42,6 +44,11 @@ async function createWeatherInfoCard(meteoInfo, cityNameData) {
     // IMPLEMENTER L'ICONE SELON LA MÉTÉO (IF) A FAIRE ULTERIEUREMENT
 
     locationTemp.innerText = meteoInfo.current['temperature_2m'];
+
+    // Insertion des elements dans la div parente
+    weatherInfoParentDiv.appendChild(cityName);
+    
+    weatherInfoParentDiv.appendChild(locationTemp);
 
     // DEBUG
     console.log("test", meteoInfo.current['temperature_2m']);
