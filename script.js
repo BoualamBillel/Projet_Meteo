@@ -1,5 +1,6 @@
 // API GEO INFO BY CITY LINK : https://geocoding-api.open-meteo.com/v1/search?name=
 // API METEO BY COORDS : https://api.open-meteo.com/v1/forecast?latitude=?&longitude=?&models=meteofrance_seamless&current=temperature_2m,is_day,rain,snowfall,cloud_cover,wind_speed_10m
+import {apiKey} from "./apikey.js";
 
 // Récupération de la géolocalisation de l'user
 function getUserGeolocInfoAsync() {
@@ -9,7 +10,7 @@ function getUserGeolocInfoAsync() {
             (position) => {
                 const userLatitude = position.coords.latitude;
                 const userLongitude = position.coords.longitude;
-                resolve([userLatitude, userLongitude]);   // EN TEST
+                resolve({userLatitude, userLongitude});
             },
             reject
         );
@@ -24,11 +25,24 @@ async function getGeoInfoByCity(cityName) {
     try {
         const response = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${cityName}`);
         cityGeoInfo = await response.json();
+        return cityGeoInfo;
     } catch (error) {
         console.error("Erreur de récupération des infos par Ville", error);
         return null;
     }
-    return cityGeoInfo;
+}
+
+// Récupération du nom de la Ville avec les coordonnés
+async function getCityNameByCoord(longitude, latitude) {
+    let cityInfo = [];
+    try{
+        const response = await fetch(`https://us1.locationiq.com/v1/reverse?key=${apiKey}&lat=${latitude}&lon=${longitude}&format=json&`);
+        cityInfo = await response.json();
+        return cityInfo;
+    } catch (error) {
+        console.error("Erreur de récupération du nom des villes par coordonnés", error);
+        return null;
+    }
 }
 
 // Récupération des informations météo par coords (Latitude, Longitude)
@@ -68,12 +82,8 @@ async function createWeatherInfoCard(meteoInfo, cityNameData) {
     console.log("test", meteoInfo.current['temperature_2m']);
 
 }
-
-// EXEC
-
-async function main() {
-    
-  // Si l'utilisateur utiliser une recherche par ville ou coordonnées pour obtenir les données Météo.
+function DisplayWeatherInfoBySearch() {
+    // Si l'utilisateur utiliser une recherche par ville ou coordonnées pour obtenir les données Météo.
     // Récupération du formulaire
     const searchForm = document.querySelector(".search-form");
     searchForm.addEventListener("submit", async (event) => {
@@ -94,28 +104,54 @@ async function main() {
         // Création de la card avec les infos Météo
         createWeatherInfoCard(meteoInfo, cityName);
 
-  // Si l'utilisateur veut utiliser sa Géolocalisation pour obtenir les données météo
-    // Récupération du bouton 
+        // DEBUG
+        console.table(cityInfo);
+        console.log("Latitude de la Ville : " + cityLatitude);
+        console.log("Longitude de la Ville : " + cityLongitude);
+    });
+}
+
+async function DisplayWeatherInfoByGeoLoc() {
+    // Récupération du bouton de géolocalisation
+    const geolocBtn = document.querySelector(".geoloc-btn");
+    // Ecoute de l'evenement Click sur le bouton de géolocalisation
+    geolocBtn.addEventListener("click", async (event) => {
         // Récupération des infos de géolocalisation de l'utilisateur
         const userPositionInfo = await getUserGeolocInfoAsync().catch(error => {
             const errorDiv = document.getElementById("geoloc-error");
             errorDiv.innerText = "Impossible d'accéder à votre géolocalisation.";
             errorDiv.style.color = "red";
         });
+        // Stockage des coords dans des variables pour plus de lisibilité
+        const userPositionLatitude = userPositionInfo['userLatitude'];
+        const userPositionLongitude = userPositionInfo['userLongitude'];
+        // Récupération du nom de la ville par les coordonnés
+        const cityInfos = await getCityNameByCoord(userPositionLongitude, userPositionLatitude);
+        const cityName = cityInfos.address.city;
+        // Récupération des infos météos avec les coordonnées
+        const meteoInfo = await getWeatherInfoByCoords(userPositionLatitude, userPositionLongitude);
+        // Création de la card
+        createWeatherInfoCard(meteoInfo, cityName);
+
+
 
 
         // DEBUG
-        console.table(cityInfo);
-        console.log("Latitude de la Ville : " + cityLatitude);
-        console.log("Longitude de la Ville : " + cityLongitude);
         console.table(userPositionInfo);
-
-
+        console.log(userPositionInfo['userLatitude']);
+        console.log(userPositionInfo['userLongitude']);
+        console.table(cityInfos);
+        console.log(cityInfos.address.city);
+        console.log(meteoInfo);
     })
+}
+// EXEC
 
+async function main() {
+
+    DisplayWeatherInfoBySearch();
+    DisplayWeatherInfoByGeoLoc();
 }
 main();
-
-
 
 
