@@ -1,6 +1,9 @@
 body {
     margin: 0;
-    background-color: rgb(127, 197, 255);
+    background: linear-gradient(135deg, #7fc5ff 0%, #e0e7ef 100%);
+    font-family: 'Segoe UI', Arial, sans-serif;
+    color: #222;
+    min-height: 100vh;
 }
 
 section {
@@ -12,7 +15,144 @@ section {
     display: flex;
     flex-direction: column;
     align-items: center;
-    
-    padding-top: 1em;
-    
+    padding-top: 2em;
+    gap: 2em;
+}
+
+.search-bar {
+    background: #fff;
+    border-radius: 1em;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    padding: 1.5em 2em;
+    margin-bottom: 1em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.search-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    align-items: center;
+}
+
+.search-form input[type="text"] {
+    padding: 0.7em 1em;
+    border: 1px solid #b3d7f6;
+    border-radius: 0.5em;
+    font-size: 1em;
+    outline: none;
+    transition: border 0.2s;
+    width: 200px;
+}
+
+.search-form input[type="text"]:focus {
+    border: 1.5px solid #4fa3ff;
+}
+
+.search-form button {
+    background: #4fa3ff;
+    color: #fff;
+    border: none;
+    border-radius: 0.5em;
+    padding: 0.7em 1.5em;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.search-form button:hover {
+    background: #3578c6;
+}
+
+.position-inputs {
+    display: flex;
+    gap: 0.5em;
+}
+
+.position-inputs input {
+    width: 100px;
+}
+
+.weather-info {
+    background: #fff;
+    border-radius: 1em;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    padding: 2em 3em;
+    min-width: 300px;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+}
+
+.weather-info h1 {
+    margin: 0.2em 0;
+    font-size: 2em;
+    font-weight: 600;
+}
+
+.weather-info img {
+    width: 60px;
+    height: 60px;
+}
+
+.geoloc-info {
+    background: #fff;
+    border-radius: 1em;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    padding: 1.5em 2em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+}
+
+.geoloc-info h1 {
+    font-size: 1.3em;
+    margin: 0;
+}
+
+.geoloc-btn {
+    background: #4fa3ff;
+    color: #fff;
+    border: none;
+    border-radius: 0.5em;
+    padding: 0.7em 1.5em;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.geoloc-btn:hover {
+    background: #3578c6;
+}
+
+.geoloc-error {
+    color: #e74c3c;
+    font-weight: 500;
+    min-height: 1.5em;
+    margin-top: 0.5em;
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+    .main-content {
+        padding-top: 0.5em;
+        gap: 1em;
+    }
+    .search-bar,
+    .weather-info,
+    .geoloc-info {
+        padding: 1em;
+        min-width: unset;
+    }
+    .weather-info {
+        padding: 1em;
+    }
 }

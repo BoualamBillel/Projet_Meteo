@@ -61,6 +61,8 @@ async function getWeatherInfoByCoords(latitude, longitude) {
 async function createWeatherInfoCard(meteoInfo, cityNameData) {
     // Récupération de la div parente
     const weatherInfoParentDiv = document.querySelector(".weather-info");
+    // Nettoyage de la div
+    weatherInfoParentDiv.innerHTML = "";
     // Création des divs
     const cityName = document.createElement("h1");
     const weatherIcon = document.createElement("img");
