@@ -4,12 +4,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <title>Météo App</title>
 </head>
 
 <body>
+
+    <header class="weather-banner">
+        <div class="banner-content">
+            <div class="weather-icon">
+                <div class="sun"></div>
+                <div class="cloud"></div>
+            </div>
+            <h1>Easy Météo</h1>
+            <p>Prévisions en direct, simples et précises</p>
+        </div>
+    </header>
 
     <main>
         <section class="main-content">
@@ -23,13 +37,13 @@
                     </div>
                 </form>
             </div>
-            <div class="weather-info">
+            <div id="weather-info">
 
 
             </div>
             <div class="geoloc-info">
-                <h1>Chez moi ?</h1>
-                <button class="geoloc-btn">Icone GEO</button>
+                <h1>Afficher la météo actuelle de votre géolocalisation ?</h1>
+                <button class="geoloc-btn"><i class="fa-duotone fa-solid fa-magnifying-glass"></i></button>
                 <div class="geoloc-error">
 
                 </div>
