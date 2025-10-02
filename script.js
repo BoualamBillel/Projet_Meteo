@@ -72,8 +72,8 @@ async function createWeatherInfoCard(meteoInfo, cityNameData) {
 // EXEC
 
 async function main() {
-
-
+    
+  // Si l'utilisateur utiliser une recherche par ville ou coordonnées pour obtenir les données Météo.
     // Récupération du formulaire
     const searchForm = document.querySelector(".search-form");
     searchForm.addEventListener("submit", async (event) => {
@@ -94,13 +94,14 @@ async function main() {
         // Création de la card avec les infos Météo
         createWeatherInfoCard(meteoInfo, cityName);
 
+  // Si l'utilisateur veut utiliser sa Géolocalisation pour obtenir les données météo
+    // Récupération du bouton 
         // Récupération des infos de géolocalisation de l'utilisateur
-        
         const userPositionInfo = await getUserGeolocInfoAsync().catch(error => {
-        const errorDiv = document.getElementById("geoloc-error");
-        errorDiv.innerText = "Impossible d'accéder à votre géolocalisation.";
-        errorDiv.style.color = "red";
-    });
+            const errorDiv = document.getElementById("geoloc-error");
+            errorDiv.innerText = "Impossible d'accéder à votre géolocalisation.";
+            errorDiv.style.color = "red";
+        });
 
 
         // DEBUG
@@ -111,7 +112,7 @@ async function main() {
 
 
     })
-    
+
 }
 main();
 
