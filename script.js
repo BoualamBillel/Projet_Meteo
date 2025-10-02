@@ -60,15 +60,15 @@ async function getWeatherInfoByCoords(latitude, longitude) {
 // Icone change selon le climat actuel
 function getWeatherIcon(meteoInfo) {
     if (meteoInfo.current.snowfall > 0) {
-        return "fa-solid fa-snowflake"; // Neige
+        return "fa-solid fa-snowflake icon-snow"; // Neige (bleu clair)
     } else if (meteoInfo.current.rain > 0) {
-        return "fa-solid fa-cloud-showers-heavy"; // Pluie
+        return "fa-solid fa-cloud-showers-heavy icon-rain"; // Pluie (bleu)
     } else if (meteoInfo.current.cloud_cover > 60) {
-        return "fa-solid fa-cloud"; // Très nuageux
+        return "fa-solid fa-cloud icon-cloud"; // Très nuageux (gris)
     } else if (meteoInfo.current.cloud_cover > 20) {
-        return "fa-solid fa-cloud-sun"; // Peu nuageux
+        return "fa-solid fa-cloud-sun icon-cloud-sun"; // Peu nuageux (jaune/gris)
     } else {
-        return meteoInfo.current.is_day ? "fa-solid fa-sun" : "fa-solid fa-moon"; // Soleil ou lune
+        return meteoInfo.current.is_day ? "fa-solid fa-sun icon-sun" : "fa-solid fa-moon icon-moon"; // Soleil (jaune) ou lune (gris)
     }
 }
 // Création des elements necessaires à l'affichage des infos de Météo
@@ -82,9 +82,11 @@ async function createWeatherInfoCard(meteoInfo, cityNameData) {
     weatherInfoContainer.classList.add("weather-info-container");
     // Création des elements
     const cityName = document.createElement("h1");
+    cityName.classList.add("city-name-text");
     const cityWeatherTempText = document.createElement("h1");
     const weatherIcon = document.createElement("div");
     const locationTemp = document.createElement("h1");
+    locationTemp.classList.add("temp-text");
 
     // Remplissage des elements avec les infos correspondantes
     cityWeatherTempText.innerText = "Température actuelle :"
