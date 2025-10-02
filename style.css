@@ -232,6 +232,18 @@ section {
     text-align: center;
 }
 
+.weather-info-container {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5em;
+    padding: 1em;
+
+    border: 1px solid #e0e0e0;
+    border-radius: 0.5em;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.8), rgba(240, 240, 240, 0.8));
+}
+
 @media (max-width: 600px) {
     .main-content {
         padding-top: 0.5em;

@@ -1,6 +1,6 @@
 // API GEO INFO BY CITY LINK : https://geocoding-api.open-meteo.com/v1/search?name=
 // API METEO BY COORDS : https://api.open-meteo.com/v1/forecast?latitude=?&longitude=?&models=meteofrance_seamless&current=temperature_2m,is_day,rain,snowfall,cloud_cover,wind_speed_10m
-import {apiKey} from "./apikey.js";
+import { apiKey } from "./apikey.js";
 
 // Récupération de la géolocalisation de l'user
 function getUserGeolocInfoAsync() {
@@ -10,7 +10,7 @@ function getUserGeolocInfoAsync() {
             (position) => {
                 const userLatitude = position.coords.latitude;
                 const userLongitude = position.coords.longitude;
-                resolve({userLatitude, userLongitude});
+                resolve({ userLatitude, userLongitude });
             },
             reject
         );
@@ -35,7 +35,7 @@ async function getGeoInfoByCity(cityName) {
 // Récupération du nom de la Ville avec les coordonnés
 async function getCityNameByCoord(longitude, latitude) {
     let cityInfo = [];
-    try{
+    try {
         const response = await fetch(`https://us1.locationiq.com/v1/reverse?key=${apiKey}&lat=${latitude}&lon=${longitude}&format=json&`);
         cityInfo = await response.json();
         return cityInfo;
@@ -57,32 +57,61 @@ async function getWeatherInfoByCoords(latitude, longitude) {
     }
     return meteoInfo;
 }
+// Icone change selon le climat actuel
+function getWeatherIcon(meteoInfo) {
+    if (meteoInfo.current.snowfall > 0) {
+        return "fa-solid fa-snowflake"; // Neige
+    } else if (meteoInfo.current.rain > 0) {
+        return "fa-solid fa-cloud-showers-heavy"; // Pluie
+    } else if (meteoInfo.current.cloud_cover > 60) {
+        return "fa-solid fa-cloud"; // Très nuageux
+    } else if (meteoInfo.current.cloud_cover > 20) {
+        return "fa-solid fa-cloud-sun"; // Peu nuageux
+    } else {
+        return meteoInfo.current.is_day ? "fa-solid fa-sun" : "fa-solid fa-moon"; // Soleil ou lune
+    }
+}
 // Création des elements necessaires à l'affichage des infos de Météo
 async function createWeatherInfoCard(meteoInfo, cityNameData) {
     // Récupération de la div parente
     const weatherInfoParentDiv = document.querySelector("#weather-info");
-    // Nettoyage de la div
+    // Nettoyage de la div parente
     weatherInfoParentDiv.innerHTML = "";
-    // Création des divs
+    //Création du container d'info météo
+    const weatherInfoContainer = document.createElement("div");
+    weatherInfoContainer.classList.add("weather-info-container");
+    // Création des elements
     const cityName = document.createElement("h1");
-    const weatherIcon = document.createElement("img"); // Reste à faire
+    const cityWeatherTempText = document.createElement("h1");
+    const weatherIcon = document.createElement("div");
     const locationTemp = document.createElement("h1");
 
     // Remplissage des elements avec les infos correspondantes
+    cityWeatherTempText.innerText = "Température actuelle :"
     cityName.innerText = cityNameData;
     // IMPLEMENTER L'ICONE SELON LA MÉTÉO (IF) A FAIRE ULTERIEUREMENT
+    //TEST
+    const currentWeatherIcon = getWeatherIcon(meteoInfo);
+    currentWeatherIcon.split(" ").forEach(clas => weatherIcon.classList.add(clas));
+
+
     locationTemp.innerText = meteoInfo.current['temperature_2m'];
-    
+
     // Ajout de la classe à la div parente pour la styliser
     weatherInfoParentDiv.classList.add("weather-info");
 
     // Insertion des elements dans la div parente
     weatherInfoParentDiv.appendChild(cityName);
-
-    weatherInfoParentDiv.appendChild(locationTemp);
+    // Insertion du container dans la div parente
+    weatherInfoParentDiv.appendChild(weatherInfoContainer);
+    // Insertion de texte informatif dans le container
+    weatherInfoContainer.appendChild(cityWeatherTempText);
+    weatherInfoContainer.appendChild(weatherIcon);
+    weatherInfoContainer.appendChild(locationTemp);
 
     // DEBUG
     console.log("test", meteoInfo.current['temperature_2m']);
+    console.log(currentWeatherIcon);
 
 }
 function DisplayWeatherInfoBySearch() {
