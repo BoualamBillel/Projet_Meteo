@@ -201,6 +201,7 @@ section {
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: center;
     gap: 1em;
     margin-bottom: 1em;
 }
@@ -289,9 +290,14 @@ section {
     .geoloc-info {
         padding: 1em;
         min-width: unset;
+        margin: 1em;
     }
 
     .weather-info {
         padding: 1em;
+    }
+
+    .search-form input[type="text"] {
+        width: 150px;
     }
 }
