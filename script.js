@@ -63,7 +63,7 @@ function getWeatherIcon(meteoInfo) {
         return "fa-solid fa-snowflake icon-snow"; // Neige (bleu clair)
     } else if (meteoInfo.current.rain > 0) {
         return "fa-solid fa-cloud-showers-heavy icon-rain"; // Pluie (bleu)
-    } else if (meteoInfo.current.cloud_cover > 60) {
+    } else if (meteoInfo.current.cloud_cover > 95) {
         return "fa-solid fa-cloud icon-cloud"; // Très nuageux (gris)
     } else if (meteoInfo.current.cloud_cover > 20) {
         return "fa-solid fa-cloud-sun icon-cloud-sun"; // Peu nuageux (jaune/gris)
@@ -145,6 +145,36 @@ function DisplayWeatherInfoBySearch() {
     });
 }
 
+function DisplayWeatherInfoByCoords() {
+    // Si l'utilisateur utiliser une recherche par ville ou coordonnées pour obtenir les données Météo.
+    // Récupération du formulaire
+    const searchForm = document.querySelector(".search-form");
+    searchForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        // Récupération des données du formulaire
+        const formData = new FormData(searchForm);
+        const searchCityLatitude = formData.get("latitude");
+        console.log("Latitude entrer par l'utilisateur : ", searchCityLatitude);
+        const searchCityLongitude = formData.get("longitude");
+        console.log("Longitude entrer par l'utilisateur : ", searchCityLongitude);
+        // Récupération du nom de la ville la plus proche par coordonnées
+        const cityInfos = await getCityNameByCoord(searchCityLongitude, searchCityLatitude);
+        console.log("[DisplayWeatherInfoByCoords] : Données de la ville : ", cityInfos);
+        const cityName = cityInfos.address.town;
+        console.log("[DisplayWeatherInfoByCoords] : Nom de la ville : ", cityName);
+        // Récupération des informations météo avec les coordonnés
+        const meteoInfo = await getWeatherInfoByCoords(searchCityLatitude, searchCityLongitude);
+        console.log("[DisplayWeatherInfoByCoords] : Données retournés : ", meteoInfo);
+        // Création de la card avec les infos Météo
+        createWeatherInfoCard(meteoInfo, cityName);
+
+        // DEBUG
+        console.table(cityInfo);
+        console.log("Latitude de la Ville : " + cityLatitude);
+        console.log("Longitude de la Ville : " + cityLongitude);
+    });
+}
+
 async function DisplayWeatherInfoByGeoLoc() {
     // Récupération du bouton de géolocalisation
     const geolocBtn = document.querySelector(".geoloc-btn");
@@ -184,6 +214,7 @@ async function DisplayWeatherInfoByGeoLoc() {
 async function main() {
 
     DisplayWeatherInfoBySearch();
+    DisplayWeatherInfoByCoords();
     DisplayWeatherInfoByGeoLoc();
 }
 main();
