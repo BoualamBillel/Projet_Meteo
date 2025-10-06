@@ -91,7 +91,7 @@ async function createWeatherInfoCard(meteoInfo, cityNameData) {
     // Remplissage des elements avec les infos correspondantes
     cityWeatherTempText.innerText = "Température actuelle :"
     cityName.innerText = cityNameData;
-
+    // Récupération de l'icone correspondant aux conditions météo actuelles
     const currentWeatherIcon = getWeatherIcon(meteoInfo);
     currentWeatherIcon.split(" ").forEach(clas => weatherIcon.classList.add(clas));
 
