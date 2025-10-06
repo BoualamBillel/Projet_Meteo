@@ -96,7 +96,7 @@ async function createWeatherInfoCard(meteoInfo, cityNameData) {
     currentWeatherIcon.split(" ").forEach(clas => weatherIcon.classList.add(clas));
 
 
-    locationTemp.innerText = meteoInfo.current['temperature_2m'];
+    locationTemp.innerText = meteoInfo.current['temperature_2m'] + " °C";
 
     // Ajout de la classe à la div parente pour la styliser
     weatherInfoParentDiv.classList.add("weather-info");
